@@ -204,11 +204,11 @@ def test_api_training_set(tmpdir):
         "combiner": {"type": "concat", "output_size": 14},
     }
     model = LudwigModel(config)
-    model.train(training_set=data_csv, validation_set=val_csv, test_set=test_csv)
+    model.train(training_set=data_csv, validation_set=val_csv, test_set=test_csv, output_directory=tmpdir)
     model.predict(dataset=test_csv)
 
     # Train again, this time the HDF5 cache will be used
-    model.train(training_set=data_csv, validation_set=val_csv, test_set=test_csv)
+    model.train(training_set=data_csv, validation_set=val_csv, test_set=test_csv, output_directory=tmpdir)
 
 
 def test_api_training_determinism(tmpdir):
@@ -455,7 +455,7 @@ def test_api_callbacks(tmpdir, csv_filename, epochs, batch_size, num_examples, s
     val_csv = shutil.copyfile(data_csv, os.path.join(tmpdir, "validation.csv"))
     test_csv = shutil.copyfile(data_csv, os.path.join(tmpdir, "test.csv"))
 
-    model.train(training_set=data_csv, validation_set=val_csv, test_set=test_csv)
+    model.train(training_set=data_csv, validation_set=val_csv, test_set=test_csv, output_directory=tmpdir)
 
     assert mock_callback.on_epoch_start.call_count == epochs
     assert mock_callback.on_epoch_end.call_count == epochs
@@ -504,7 +504,7 @@ def test_api_callbacks_checkpoints_per_epoch(
     val_csv = shutil.copyfile(data_csv, os.path.join(tmpdir, "validation.csv"))
     test_csv = shutil.copyfile(data_csv, os.path.join(tmpdir, "test.csv"))
 
-    model.train(training_set=data_csv, validation_set=val_csv, test_set=test_csv)
+    model.train(training_set=data_csv, validation_set=val_csv, test_set=test_csv, output_directory=tmpdir)
 
     assert mock_callback.on_epoch_start.call_count == epochs
     assert mock_callback.on_epoch_end.call_count == epochs

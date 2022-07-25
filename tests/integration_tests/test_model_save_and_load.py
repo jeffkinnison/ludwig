@@ -226,7 +226,7 @@ def test_model_weights_match_training(tmpdir, csv_filename):
         config=config,
     )
 
-    training_stats, _, _ = model.train(training_set=data_csv_path, random_seed=1919)
+    training_stats, _, _ = model.train(training_set=data_csv_path, random_seed=1919, output_directory=tmpdir)
 
     # generate predicitons from training data
     df = pd.read_csv(data_csv_path)
