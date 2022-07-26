@@ -53,7 +53,13 @@ def test_whylogs_callback_local(tmpdir):
     callback = WhyLogsCallback()
 
     model = LudwigModel(config, callbacks=[callback])
-    model.train(training_set=data_csv, validation_set=val_csv, test_set=test_csv, experiment_name=exp_name)
+    model.train(
+        training_set=data_csv,
+        validation_set=val_csv,
+        test_set=test_csv,
+        experiment_name=exp_name,
+        output_directory=tmpdir,
+    )
     _, _ = model.predict(test_csv)
 
     local_training_output_dir = "output/training"
@@ -76,7 +82,7 @@ def test_whylogs_callback_dask(tmpdir):
     val_csv = shutil.copyfile(data_csv, os.path.join(tmpdir, "validation.csv"))
     test_csv = shutil.copyfile(data_csv, os.path.join(tmpdir, "test.csv"))
 
-    run_dask(input_features, output_features, data_csv, val_csv, test_csv)
+    run_dask(input_features, output_features, data_csv, val_csv, test_csv, output_directory=tmpdir)
     local_training_output_dir = "output/training"
     local_prediction_output_dir = "output/prediction"
 
@@ -85,7 +91,7 @@ def test_whylogs_callback_dask(tmpdir):
 
 
 @spawn
-def run_dask(input_features, output_features, data_csv, val_csv, test_csv):
+def run_dask(input_features, output_features, data_csv, val_csv, test_csv, output_directory):
     epochs = 2
     batch_size = 8
     backend = {
@@ -113,5 +119,11 @@ def run_dask(input_features, output_features, data_csv, val_csv, test_csv):
         exp_name = "whylogs_test_ray"
         callback = WhyLogsCallback()
         model = LudwigModel(config, backend=backend, callbacks=[callback])
-        model.train(training_set=data_csv, validation_set=val_csv, test_set=test_csv, experiment_name=exp_name)
+        model.train(
+            training_set=data_csv,
+            validation_set=val_csv,
+            test_set=test_csv,
+            experiment_name=exp_name,
+            output_directory=output_directory,
+        )
         _, _ = model.predict(test_csv)
