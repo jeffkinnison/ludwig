@@ -545,7 +545,8 @@ def test_api_callbacks_default_train_steps(tmpdir, csv_filename):
     model.train(
         training_set=generate_data(
             input_features, output_features, os.path.join(tmpdir, csv_filename), num_examples=num_examples
-        )
+        ),
+        output_directory=tmpdir,
     )
 
     assert mock_callback.on_epoch_start.call_count == epochs
@@ -571,7 +572,8 @@ def test_api_callbacks_fixed_train_steps(tmpdir, csv_filename):
     model.train(
         training_set=generate_data(
             input_features, output_features, os.path.join(tmpdir, csv_filename), num_examples=num_examples
-        )
+        ),
+        output_directory=tmpdir,
     )
 
     # There are 10 steps per epoch, so 100 train steps => 10 epochs.
@@ -602,7 +604,8 @@ def test_api_callbacks_fixed_train_steps_less_than_one_epoch(tmpdir, csv_filenam
     model.train(
         training_set=generate_data(
             input_features, output_features, os.path.join(tmpdir, csv_filename), num_examples=num_examples
-        )
+        ),
+        output_directory=tmpdir,
     )
 
     assert mock_callback.on_epoch_start.call_count == 1
