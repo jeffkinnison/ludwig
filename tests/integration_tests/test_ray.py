@@ -224,6 +224,10 @@ def test_ray_read_binary_files(tmpdir, df_engine):
 @pytest.mark.parametrize("dataset_type", ["csv", "parquet"])
 @pytest.mark.distributed
 def test_ray_save_processed_input(dataset_type):
+    import os
+
+    os.environ["RAY_LOG_TO_STDERR"] = "1"
+
     input_features = [
         category_feature(vocab_size=2, reduce_input="sum"),
     ]
