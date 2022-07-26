@@ -123,6 +123,7 @@ def test_dask_known_divisions(feature_fn, csv_filename, tmpdir):
 
     input_features = [feature_fn(os.path.join(tmpdir, "generated_output"))]
     output_features = [category_feature(vocab_size=5, reduce_input="sum")]
+
     # 100 examples to ensure that all partitions have >0 samples after splitting
     data_csv = generate_data(input_features, output_features, os.path.join(tmpdir, csv_filename), num_examples=100)
     data_df = dd.from_pandas(pd.read_csv(data_csv), npartitions=2)
