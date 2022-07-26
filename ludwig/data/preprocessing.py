@@ -1083,6 +1083,8 @@ def build_dataset(
 ):
     df_engine = backend.df_engine
 
+    print("preprocessing df_engine", df_engine)
+
     if df_engine.partitioned:
         if any(f["type"] in REPARTITIONING_FEATURE_TYPES for f in features) and dataset_df.npartitions > 1:
             # A globally unique index only matters if you know that there will be a repartition downstream for some

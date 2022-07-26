@@ -220,6 +220,8 @@ def test_ray_read_binary_files(tmpdir, df_engine):
 
         assert proc_col.equals(proc_col_expected)
 
+    print("inside read_binary_files: ray.is_initialized()", ray.is_initialized())
+
 
 @pytest.mark.parametrize("dataset_type", ["csv", "parquet"])
 @pytest.mark.distributed
@@ -238,6 +240,8 @@ def test_ray_save_processed_input(dataset_type):
         skip_save_processed_input=False,
         nan_percent=0.1,
     )
+
+    print("inside save_processed_input: ray.is_initialized()", ray.is_initialized())
 
 
 @pytest.mark.parametrize("df_engine", ["dask", "modin"])
@@ -264,6 +268,8 @@ def test_ray_tabular(df_engine):
         output_features,
         df_engine=df_engine,
     )
+
+    print("inside test_ray_tabular: ray.is_initialized()", ray.is_initialized())
 
 
 @pytest.mark.skip(reason="TODO torch")
